@@ -1,19 +1,17 @@
 const fs = require("fs");
 const { Client, Util, MessageEmbed } = require("discord.js");
 const Discord = require("discord.js");
-const client = new Discord.Client();
+const client = new Discord.Client({ ws: { properties: { $browser: "Discord iOS" }} });
 const YouTube = require("simple-youtube-api");
 const ytdl = require("ytdl-core");
 require("dotenv").config();
 require("./server.js");
 const axios = require("axios");
-const butt = require("discord-buttons")(client);
 const fetch = require("node-fetch");
 const superagent = require("superagent");
 const morse = require("morse-node").create("ITU");
 var owner = "695817459206324265";
 const dF = require("dateformat");
-dF("dd-mm-yyyy");
 var now = new Date();
 let nw = dF(now, "DD-MM-YYYY");
 const guild = "695851369277685760";
@@ -27,15 +25,41 @@ const chanel = ["831770333501325332", "827581906140528660"];
 
 bot.on("warn", console.warn);
 bot.on("error", console.error);
-const getapp = guild => {
+/*const getapp = guild => {
   const app = bot.api.applications(bot.user.id);
   if (guild) {
     app.guilds(guild);
   }
   return app;
-};
-bot.on("ready", async () => {
-  console.log(`[READY] ${bot.user.tag} has been successfully booted up!`);
+};*/
+client.on("ready", async () => {
+/*client.api.applications(client.user.id).guilds("875388139148017715").commands.post({
+        data: {
+            name: "ping",
+            description: "ping pong cing cong"
+            // possible options here e.g. options: [{...}]
+        }
+    });
+
+
+    client.ws.on('INTERACTION_CREATE', async interaction => {
+        const command = interaction.data.name.toLowerCase();
+        const args = interaction.data.options;
+
+        if (command === 'hello'){ 
+            // here you could do anything. in this sample
+            // i reply with an api interaction
+            client.api.interactions(interaction.id, interaction.token).callback.post({
+                data: {
+                    type: 4,
+                    data: {
+                        content: `ap iyh`
+                    }
+                }
+            })
+        }
+    });*/
+  console.log(`[READY] ${client.user.tag} has been successfully booted up!`);
   /* bot.user.setPresence({
         status: 'mobile',
         activity: {
@@ -45,19 +69,20 @@ bot.on("ready", async () => {
         }
     })})*/
   let setatus = [
-    `in ${bot.guilds.cache.size} servers`,
-    `on ${bot.channels.cache.size} channels`,
-    `with ${bot.users.cache.size} dumbass`,
-    `with ma members`,
+    `in ${client.guilds.cache.size} servers`,
+    `on ${client.channels.cache.size} channels`,
+    `with ${client.users.cache.size} dumbass`,
+    `Mobile Legends`,
     `ROBLOX`,
-    `How to make slash command`,
-    `with ma honey`,
-    `with WIBU`
+    `GitHub`,
+    `with you`,
+    `nhentai`,
+    `message logger was released!, now i can see ur chad`
   ];
   setInterval(() => {
     let index = Math.floor(Math.random() * (setatus.length - 1) + 1);
     //${db.get(`status`)}
-    bot.user.setActivity(setatus[index], {
+    client.user.setActivity(setatus[index], {
       type: "STREAMING",
       URL: "https://www.twitch.tv/chillhopmusic"
     });
@@ -80,9 +105,61 @@ bot.on("voiceStateUpdate", (mold, mnew) => {
     if (serverQueue) queue.delete(mold.guild.id);
   }
 });
-bot.on("message", async message => {
+
+      require('dotenv').config();
+const discordToken = process.env.tke;
+const tokensaya = process.env.saya;
+const myRL = require("serverline");
+
+            let isStarted = false;
+            let currentPackageName;
+            let refreshInterval;
+            let tooke;
+
+  function createRefreshInterval() {
+    if(refreshInterval)
+        clearInterval(refreshInterval);
+
+    refreshInterval = setInterval(async () => {
+        if(!isStarted) return;
+        console.log('Updating...');
+        await setStatus(currentPackageName, "UPDATE");
+    }, 5 * 60 * 1000);
+}
+
+async function setStatus(packageName, update) {
+    if(!currentPackageName) {
+        console.error('No package name set');
+        return;
+    }
+    try {
+        await axios.post(`https://discord.com/api/v6/presences`, {
+            'package_name': packageName,
+            'update': update
+        }, {
+            headers: {
+                'Authorization': tokensaya,
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile OceanHero/6 Safari/537.36',
+                'Content-Type': 'application/json',
+                'Cache-Control': 'max-age=121',
+            }
+        });
+    } catch (err) {
+        console.error(err.message);
+    }
+}
+client.on("message", async message => {
+ /* if (message.channel.id === "875388139932356610"){
+    message.react(`<:afaiya:970203531464294430>`)
+  }*/
+  
+ /*if (message.attachments.size > 0 && message.channel.id == "875388139932356610") {
+let p = ["775156054958014524"]
+if (message.author.id == p){
+message.channel.send("https://cdn.discordapp.com/attachments/967061747011846244/969208625841201202/IMG_20220428_190455.jpg")  
+  }}*/
   let meseg = message.content.toLowerCase();
-  if (meseg === `<@${bot.user.id}>` || meseg === `<@!${bot.user.id}>`) {
+  if (meseg === `<@${client.user.id}>` || meseg === `<@!${client.user.id}>`) {
     const prefix = require("discord-prefix");
     let defaultPrefix = PREFIX;
     let guildPrefix = prefix.getPrefix(message.guild.id);
@@ -108,7 +185,7 @@ bot.on("message", async message => {
   ];
   let ranem = Math.floor(Math.random() * emgj.length);
   if (message.content === "test") {
-    message.react(`${ranem}`);
+    message.react(`${emgj[ranem]}`);
   }
   /*if (message.content === "spi" || message.content === "spi :eugh:" || message.content === "spi <:eugh:831477683426295811>"){
     message.react(emgj[ranem])
@@ -138,13 +215,15 @@ bot.on("message", async message => {
   let color = "BLUE";
   let command = message.content.toLowerCase().split(" ")[0];
   command = command.slice(PREFIX.length);
+
   // Chatbot desu
   if (
     message.channel.id === "827581906140528660" ||
     message.channel.id === "830950242030977034" ||
     message.channel.id === "831383137967276084" ||
     message.channel.id === "831390930035802113" ||
-    message.channel.id === "866202813561176074"
+    message.channel.id === "866202813561176074" ||
+    message.channel.id === "880476403458535449"
   ) {
     const pesan = await fetch(
       `https://api.udit.gq/api/chatbot?message=${args}&gender=male&name=${message.author.username}`
@@ -154,7 +233,86 @@ bot.on("message", async message => {
     message.channel.send(`${pesan}`);
   }
   // ------------------- OTHER COMMANDS -----------------------//
+  if (message.content.startsWith("lic")){
+message.channel.send(`<a:lic:884363894519394304>${searchString}`)}
   if (!message.content.startsWith(PREFIX)) return;
+  if (command === "todo") {
+    message.delete()
+    message.channel.send('gtw')
+  }
+  if (command === "afk"){
+    const { Collection } = require("discord.js");
+const afk = new Collection();
+module.exports = {afk};
+    
+    const reason = args.join(" ") || "No reason given";
+
+        if(message.content.includes(`@`)) return message.channel.send("ao so a6");
+
+        afk.set(message.author.id, [Date.now(), reason]);
+
+        message.reply(`${message.author.username} I have set your afk : ${reason}`)
+  }
+
+  //  status
+
+  if (command == "g" && message.author.id === owner){
+    if(isStarted) {
+                message.channel.send("Already started");
+                return;
+            }
+            if(!currentPackageName) {
+                message.channel.send('No package name set');
+                return;
+            }
+            console.log('Starting...');
+            message.channel.send(`\`${currentPackageName}, ok\``)
+            await setStatus(currentPackageName, "START");
+            isStarted = true;
+            createRefreshInterval();
+  }
+  if (command === "gset" && message.author.id === owner){
+            console.log(`Setting... ${searchString}`);
+            message.channel.send(`\`ok, setting ${searchString}\``)
+            currentPackageName = searchString;
+  }
+  if (command === "gu" && message.author.id === owner){
+            if(!isStarted) {
+                message.channel.send('Not started');
+                return;
+            }
+            if(!currentPackageName) {
+                message.channel.send('No package name set');
+                return;
+            }    
+            console.log('Updating...');
+    message.channel.send('updating')
+            process.title = `DiscordMobilePlayingCLI - Running - ${currentPackageName}`;
+            await setStatus(currentPackageName, "UPDATE");
+  }
+  if (command === "gstop"){
+            if(!isStarted) {
+                message.channel.send('Not started');
+                return;
+            }
+            if(!currentPackageName) {
+                message.channel.send('No package name set');
+                return;
+            }
+            console.log('Stopping...');
+    message.channel.send('stopping')
+            await setStatus(currentPackageName, "STOP");
+            isStarted = false;
+            clearInterval(refreshInterval);
+            process.title = `DiscordMobilePlayingCLI - Idle`;
+  }
+  if (command === "ghelp"){
+    message.channel.send('h.g = mulai/nh.gset = set `package`/nh.gu = update/refresh/nh.gstop = stop')
+  }
+  
+
+/////////////////////////////////////
+  
   if ((command === "w") | (command === "waifu")) {
     const adios = require("axios").default;
 
@@ -188,7 +346,7 @@ bot.on("message", async message => {
       });
   }
   if (command === "fact") {
-    var axios = require("axios").default;
+  //  var axios = require("axios").default;
     var options = {
       method: "GET",
       url: "https://animu.p.rapidapi.com/fact",
@@ -306,53 +464,52 @@ bot.on("message", async message => {
       message.channel.send(`Hello, ${button.clicker.user.tag}`);
     });
   }
-  if (command === "gplay" || command === "googleplay" || command === "gp"){
+  if (command === "gplay" || command === "googleplay" || command === "gp") {
     const url = `https://api-gplay.azharimm.tk/apps?q=${searchString}`
     const got = require("got");
     let data = await got(url).then(res => JSON.parse(res.body));
-    var id = data.data.results[0].appId 
+    var id = data.data.results[0].appId
 
     const get = require("got");
     let web = `https://api-gplay.azharimm.tk/apps/${id}`
     var hasil = await get(web).then(res => JSON.parse(res.body));
 
-    
+
     let s = hasil.data.results
     let desc = s.description
-    if(desc.length > 300) desc = desc.substring(0,300);
+    if (desc.length > 300) desc = desc.substring(0, 300);
     let em = new MessageEmbed()
-    .setTitle(s.title)
-    .setURL(s.url)
-    .setThumbnail(s.icon)
-    .setColor('BLUE')
-    .setAuthor(`Google Play Store`, `https://www.freepnglogos.com/uploads/google-play-png-logo/google-changes-play-store-png-logo-0.png`)
-    .setDescription(`${s.summary}\n\n${desc} ...`)
-    .addField(`Installs`, s.installs, true)
-    .addField(`Score`, s.scoreText, true)
-    .addField(`Price`, s.priceText, true)
-    .addField(`Genre`, s.genre, false)
-    .setImage(s.screenshots[0])
+      .setTitle(s.title)
+      .setURL(s.url)
+      .setThumbnail(s.icon)
+      .setColor('BLUE')
+      .setAuthor(`Google Play Store`, `https://www.freepnglogos.com/uploads/google-play-png-logo/google-changes-play-store-png-logo-0.png`)
+      .setDescription(`${s.summary}\n\n${desc} ...`)
+      .addField(`Installs`, s.installs, true)
+      .addField(`Score`, s.scoreText, true)
+      .addField(`Price`, s.priceText, true)
+      .addField(`Genre`, s.genre, false)
+      .setImage(s.screenshots[0])
     message.channel.send(em)
   }
   if ((command === "ytcomment") | (command === "ytc")) {
     const got = require("got");
     const user = message.mentions.users.first() || message.author;
-    let att = new Discord.MessageAttachment(
-      `https://some-random-api.ml/canvas/youtube-comment?username=${
-        user.username
-      }&comment=${searchString}&avatar=${user.avatarURL({
+    let link = `https://some-random-api.ml/canvas/youtube-comment?username=${
+      user.username.replace(" ", "%20")
+      }&comment=${searchString.replace(" ", "%20")}&avatar=${user.avatarURL({
         size: 1024,
         dynamic: "JPG"
-      })}`,
+      })}`
+    let att = new Discord.MessageAttachment(link,
       "ytc.jpg"
     );
-    message.channel.send(att.attachment);
-    p = new MessageEmbed().setImage(att.attachment);
-    message.channel.send(p);
+    message.channel.send(att)
+    message.channel.send(link)
   }
   if (command === "clear") {
+    if (message.author.id !== owner) return message.channel.send(`<@${ownerID}>`)
     if (!searchString) return message.channel.send("masukkan jumlah!");
-    if (message.author.id !== owner) return message.channel.send("hi");
     message
       .delete()
       .then(() => {
@@ -578,7 +735,7 @@ bot.on("message", async message => {
           if (!botReact)
             message.channel.send(
               `**${userReact.user.username}** has paid their respect.`
-            ); 
+            );
 
           return reaction.emoji.id === "843389937139449856";
         };
@@ -588,12 +745,28 @@ bot.on("message", async message => {
           .then(collected =>
             message.channel.send(
               `**${
-                msg.reactions.cache.get("<a:r_pressf:843389937139449856>").count
+              msg.reactions.cache.get("<a:r_pressf:843389937139449856>").count
               }** person paid their respect to **${searchString}**`
             )
           );
       });
     }
+  }
+  if (command == "gempa"){
+     const url = `https://cuaca-gempa-rest-api.vercel.app/quake`;
+    const got = require("got");
+    let data = await got(url).then(res => JSON.parse(res.body));
+    let em = new MessageEmbed()
+    .setTitle("Gempa terkini")
+    .setColor("RED")
+    .setImage(`${data.data.shakemap}`)
+    .setDescription(`${data.data.wilayah}`)
+    .addField("Tanggal", `${data.data.tanggal}`, true)
+    .addField("Jam", `${data.data.jam}`, true)
+    .addField("Magnitude", `${data.data.magnitude}`, false)
+    .addField("Kedalaman", `${data.data.kedalaman}`,true)
+    .addField("Dirasakan", `${data.data.dirasakan}`, false)
+    message.channel.send(em)
   }
   if (command === "gantinama") {
     if (!message.author.id === owner)
@@ -603,7 +776,7 @@ bot.on("message", async message => {
       .then(user => {
         message.channel.send(
           `Username berhasil diubah. \nUsername: \`${user.username}\` `
-        ); 
+        );
         console.log(`My new username is ${user.username}`);
       })
       .catch(error => {
@@ -622,7 +795,9 @@ bot.on("message", async message => {
     if (!suggestmessage) {
       return message.reply("Please give a valid message");
     }
-
+      if (message.author.id === owner){
+    message.delete()
+      }
     let embed = new MessageEmbed()
       .setColor("RANDOM")
       .addField(`${message.guild}`, `${suggestmessage}`)
@@ -649,14 +824,13 @@ bot.on("message", async message => {
     log.send(m);
     return;
   }
-  if (command === "snipe") {
-    const msg = bot.snipes.get(message.channel.id);
-    const embed = MessageEmbed()
-      .setAuthor(message.author, message.member.user.displayAvatarURL())
-      .setDescription(msg.content)
-      .setFooter("Snipe wangy wangy")
-      .setTimestamp();
-    message.channel.send(embed);
+  if (command === "ecdel") {
+    if (!searchString) return message.channel.send(`hmhm`)
+    let pesan = args.join(" ").slice(29)
+    let channel = message.mentions.channels.first();
+    channel.bulkDelete(pesan)
+
+    message.channel.send(`done. ${pesan} pesan di ${channel} dh diapus`)
   }
 
   if (command === "ping" || message.author.id === owner && message.content === "ping") {
@@ -673,7 +847,7 @@ bot.on("message", async message => {
     if (ping > 500) p = "MF >:";
     if (ping < 500) p = "Nice! <:ndaktau:831494322901352498>";
     message.channel.send(
-      `:mega: *${repl[result]}* - My ping: **${ping}** ms (${p})`
+      `:mega: *${repl[result]}* - My ping: **${ping}** ms (${p}) ~ Repl.it smc`
     );
   }
 
@@ -761,7 +935,7 @@ bot.on("message", async message => {
             .setColor("#36393F")
             .setAuthor(
               `${anime.titles.english ? anime.titles.english : search} | ${
-                anime.showType
+              anime.showType
               }`,
               anime.posterImage.original
             )
@@ -771,9 +945,9 @@ bot.on("message", async message => {
             .addField(
               "❯\u2000Information",
               `•\u2000\**Japanese Name:** ${
-                anime.titles.romaji
+              anime.titles.romaji
               }\n\•\u2000\**Age Rating:** ${
-                anime.ageRating
+              anime.ageRating
               }\n\•\u2000\**NSFW:** ${anime.nsfw ? "Yes" : "No"}`,
               true
             )
@@ -785,11 +959,11 @@ bot.on("message", async message => {
             .addField(
               "❯\u2000Status",
               `•\u2000\**Episodes:** ${
-                anime.episodeCount ? anime.episodeCount : "N/A"
+              anime.episodeCount ? anime.episodeCount : "N/A"
               }\n\•\u2000\**Start Date:** ${
-                anime.startDate
+              anime.startDate
               }\n\•\u2000\**End Date:** ${
-                anime.endDate ? anime.endDate : "Still airing"
+              anime.endDate ? anime.endDate : "Still airing"
               }`,
               true
             )
@@ -806,10 +980,10 @@ bot.on("message", async message => {
   }
   if (command === "gantipp") {
     if (message.author.id !== owner)
-      return message.channel.send("khusus owner!");
+      return message.channel.send(`khusus owner! <@${owner}> `);
     if (!searchString) return message.channel.send("masukkan gambar");
     if (message.author.id == owner) {
-      bot.user
+      client.user
         .setAvatar(searchString)
         .then(user =>
           message.channel
@@ -819,6 +993,7 @@ bot.on("message", async message => {
     }
   }
   if (command === "search") {
+    if (!searchString) return message.channel.send("Cari Gambar di Unsplash. ||sbnrny mirip h.images 😅||\n`h.search [query]`")
     const got = require("got");
     const url = `https://api.unsplash.com/search/photos?page=1&query=${searchString}&client_id=Qmb9rVSNnmGqM_9c8YkJM6mtLjs3AzBn0dotq7-H4RE`;
     let r = Math.floor(Math.random() * 11);
@@ -844,14 +1019,9 @@ bot.on("message", async message => {
       return message.channel.send(
         `\`.adzan <city>\` (Hanya tersedia kota" di indonesia. Kota negara lain tdk tersedia)`
       );
-    const url = `http://api.aladhan.com/v1/timingsByCity?city=${txt}&country=Indonesia&method=8`;
-    let response, data;
-    try {
-      response = await axios.get(url);
-      data = response.data;
-    } catch (e) {
-      return message.channel.send(`Error \`${e}\``);
-    }
+     const url = `http://api.aladhan.com/v1/timingsByCity?city=${txt}&country=Indonesia&method=8`
+    const got = require("got");
+    let data = await got(url).then(res => JSON.parse(res.body));
     var hmm = new MessageEmbed()
       .setAuthor(`Adzan Prayer Time | ${searchString}`)
       .setDescription(`Today`)
@@ -870,24 +1040,58 @@ bot.on("message", async message => {
       "Morse Translator.\nText -> Morse = `h.morsee`\nMorse -> Text = `h.morsed`"
     );
   }
-  if (command === "wallpaper"){
+  if (command === "igdl" || command === "ig") {
+    if (!searchString) return message.channel.send("masukkan link")
+    const url = `https://api.lolhuman.xyz/api/instagram?apikey=3f342f50d0fb2f0cbfdc7848&url=${searchString}`
+    const got = require("got");
+    let data = await got(url).then(res => JSON.parse(res.body));
+    try {
+      /*embed = new MessageEmbed()
+        .setTitle(`@${data.result.username}`)
+        .setDescription(`${data.result.caption}\n\n _**sedang mengirim video**..._`)
+      message.channel.send(embed)*/
+      ttc = new Discord.MessageAttachment(data.result, `instagram.mp4`);
+      ttc2 = new Discord.MessageAttachment(data.result[0], `instagram.mp4`);
+      ttc3 = new Discord.MessageAttachment(data.result[1], `instagram.mp4`);
+      ttc4 = new Discord.MessageAttachment(data.result[2], `instagram.mp4`);
+ttc5 = new Discord.MessageAttachment(data.result[3], `instagram.mp4`);
+      ttc6 = new Discord.MessageAttachment(data.result[4], `instagram.mp4`);
+      
+      message.channel.send(ttc)
+      message.channel.send(ttc2)
+      message.channel.send(ttc3)
+      message.channel.send(ttc4)
+message.channel.send(ttc5)
+      message.channel.send(ttc6)
+
+    } catch (e) {
+      message.channel.send(`Error, coba lagi!. ||<@${owner}>||`)
+    }
+  }
+  if (command === "wallpaper") {
     if (!searchString) return message.channel.send(`wallpaper apa yg mau dicari?`)
     const url = `https://wallhaven.cc/api/v1/search?q=${searchString}`
     const got = require("got");
     let data = await got(url).then(res => JSON.parse(res.body));
     let r = Math.floor(Math.random() * 11);
     const embed = new MessageEmbed()
-    .setColor('BLUE')
-    .setTitle(`${searchString}`)
-    .setURL(data.data[r].url)
-    .addField(`Category :`, `${data.data[r].category}`, true)
-    .addField(`Purity :`, `${data.data[r].purity}`, true)
-    .addField(`Resolution :`, `${data.data[r].resolution}`, false)
-    .addField(`File Size :`, `${data.data[r].file_size} KB`, false)
-    .setDescription(`[**Download Image**](${data.data[r].path}) `)
-    .setImage(`${data.data[r].thumbs.large}`)
-    .setFooter(`gbt`)
+      .setColor('BLUE')
+      .setTitle(`${searchString}`)
+      .setURL(data.data[r].url)
+      .addField(`Category :`, `${data.data[r].category}`, true)
+      .addField(`Purity :`, `${data.data[r].purity}`, true)
+      .addField(`Resolution :`, `${data.data[r].resolution}`, false)
+      .addField(`File Size :`, `${data.data[r].file_size} KB`, false)
+      .setDescription(`[**Download Image**](${data.data[r].path}) `)
+      .setImage(`${data.data[r].thumbs.large}`)
+      .setFooter(`gbt`)
     message.channel.send(embed)
+  }
+  if (command === "trending" || command === "trendtwit"){
+const url = `https://api.xteam.xyz/trendingtwitter?APIKEY=dd06e91fdbccaa28`
+    const got = require("got");
+    let data = await got(url).then(res => JSON.parse(res.body));
+    let p = new MessageEmbed()
   }
   if (command === "morse" || searchString[0] === "encode") {
     if (!searchString[1])
@@ -923,10 +1127,10 @@ bot.on("message", async message => {
       );
     message.channel.send(embed);
   }
-if (command === "project"){
-  message.channel.send('https://glitch.com/edit/#!/soumoe')
-  message.channel.send(`<@${owner}> | <@${message.author.id}>`)
-}
+  if (command === "project") {
+    message.channel.send('`https://glitch.com/edit/#!/soumoe` atau `https://replit.com/join/svdcnbtjdt-faris0520`')
+    message.channel.send(`<@${owner}> | <@${message.author.id}>`)
+  }
   if (command === "say" && message.author.id == owner) {
     message.delete({ timeout: 100 });
     message.channel.send(searchString);
@@ -947,7 +1151,7 @@ if (command === "project"){
     message.channel.send(`bacot lu. ${message.author.username} nak harom`);
   } else if (
     command === "spam" &&
-    message.channel.id !== "730666270139088918"
+    message.channel.id !== "730666270139088918" && message.author.id !== owner
   ) {
     message.delete({ timeout: 100 });
     message.channel.send(`${searchString}`);
@@ -967,56 +1171,149 @@ if (command === "project"){
     message.channel.send(`${searchString}`);
     message.channel.send(`${searchString}`);
   }
+  if (command === "yt"){
+    const url = `https://api.lolhuman.xyz/api/ytreels?apikey=3f342f50d0fb2f0cbfdc7848&url=${searchString}`
+    const got = require("got");
+    let data = await got(url).then(res => JSON.parse(res.body));
+
+    
+  }
   if (command === "smug") {
     const { Random } = require("something-random-on-discord");
     const random = new Random();
     let data = await random.getAnimeImgURL("smug");
     message.channel.send(data);
   }
+  /*
   if (command == "redid" || command === "reddit") {
-    const redditimage = require("reddit.images");
+    const url = `https://www.reddit.com/r/${searchString}.json`
+    const got = require("got");
+    let data = await got(url).then(res => JSON.parse(res.body));
+    let r = Math.floor(Math.random() * 31);
     if (!searchString[0])
       return message.reply("**Please provide a subreddit.**");
-    const subreds = searchString;
-
-    const redditResult = await redditimage.fetch({
-      type: "custom",
-      subreddit: [subreds]
-    });
     const color = message.guild.me.displayHexColor;
+    var dat = data.data.children[r].data;
 
     const reddit = new MessageEmbed()
-      .setTitle(redditResult[0].title)
-      .setURL(redditResult[0].postLink)
-      .setImage(redditResult[0].image)
-      .setDescription(
-        `👍 **${redditResult[0].upvotes}** | 👎 **${redditResult[0].downvotes}**`
+    reddit.setAuthor(dat.subreddit_name_prefixed)
+    reddit.setTitle(dat.title)
+    if (dat.domain === "i.redd.it" || dat.domain === "reddit.com") {
+      reddit.setURL(dat.url_overridden_by_dest)
+      reddit.setImage(dat.url)
+      reddit.setDescription(
+        `👍 **${dat.ups}**`
       )
-      .setAuthor(
-        `r/${subreds}`,
-        "https://cdn.discordapp.com/attachments/799226474640048149/799273472990642196/2018_social_media_popular_app_logo_reddit-512.png",
-        redditResult[0].postLink
-      )
-      .setColor(color)
-      .setFooter(
-        `If the image didn't load click the title.`,
-        message.guild.iconURL({ dynamic: true })
-      );
-    message.channel.send(reddit);
-  }
-  if (command === "joke") {
-    const konm = require("something-random-on-discord").Random;
-    let data = await konm.getNameJoke(
-      `${message.author.username}`,
-      `${searchString}`
+    }
+    if (dat.domain !== "i.redd.it" || dat.domain !== "reddit.com") {
+      reddit.setDescription(`${dat.selftext}\n--------------\n👍 **${dat.ups}**`)
+    }
+    reddit.setAuthor(
+      `r/${dat.subreddit}`,
+      "https://cdn.discordapp.com/attachments/799226474640048149/799273472990642196/2018_social_media_popular_app_logo_reddit-512.png",
+      dat.url_overridden_by_dest
+    )
+    reddit.setColor(color)
+    reddit.setFooter(
+      `If the image didn't load click the title.`,
+      message.guild.iconURL({ dynamic: true })
     );
-    message.channel.send(data);
+    message.channel.send(reddit);
+  } */
+  if (command === "reddid" || command === "reddit" || command === "redid"){
+    const got = require("got");
+    const url = `https://www.reddit.com/r/${searchString}/top/.json?sort=top&t=week&limit=60`
+    let data = await got(url).then(res => JSON.parse(res.body));
+    if (!searchString[0])
+      return message.channel.send("Subreddit?");
+    var index = data.data.children[Math.floor(Math.random() * 50) + 1].data;
+    
+     var image = index.preview.images[0].source.url.replace('&amp;', '&');
+               var title = index.title
+                var link = 'https://reddit.com' + index.permalink
+                var subRedditName = index.subreddit_name_prefixed
+/*      if (index.post_hint !== 'image') {
+
+                    var text = index.selftext
+                    const textembed = new MessageEmbed()
+                        .setTitle(subRedditName)
+                        .setColor(9384170)
+                        .setDescription(`${text}`)
+                        .setTitle(`${title}`)
+                        .setURL(`https://reddit.com/${subRedditName}`)
+
+                    message.channel.send(textembed)
+                }*/
+    if (index.post_hint === "hosted:video"){
+      let att = new Discord.MessageAttachment(index.media.reddit_video.fallback_url, 'reddit.mp4')
+      message.channel.send(`${title}`, att)
+    }
+    if (index.post_hint === "image"){
+                var image = index.preview.images[0].source.url.replace('&amp;', '&')
+                var title = index.title
+                var link = 'https://reddit.com' + index.permalink
+                var subRedditName = index.subreddit_name_prefixed
+
+                const imageembed = new MessageEmbed()
+                   
+                    .setImage(image)
+                    .setColor(9384170)
+                    .setDescription(`[${title}](${link})`)
+                    .setURL(`https://reddit.com/${subRedditName}`)
+                message.channel.send(imageembed)}
+  }
+  if (command === "meme") {
+       const url = [`https://www.reddit.com/r/memes/hot/.json?limit=100`, `https://reddit.com/r/dankmemes/hot/.json?limit-100`]
+       const rnd = Math.floor(Math.random() * url.length)
+       let hu = url[rnd]
+    const got = require("got");
+    let data = await got(hu).then(res => JSON.parse(res.body));
+    let r = Math.floor(Math.random() * 99);
+    const color = message.guild.me.displayHexColor;
+    var dat = data.data.children[r].data;
+    if (dat.domain === "v.redd.it"){
+      let att = new Discord.MessageAttachment(dat.url, 'reddit.mp4')
+      message.channel.send(`_${dat.title}_`, att)
+    }
+    if (dat.domain !== "v.redd.it"){
+    const att = new Discord.MessageAttachment(dat.url, 'reddit.jpg')
+    message.channel.send(`_${dat.title}_`, att);}
+  }
+  if (command === "indonesia"||command === "indo") {
+    const hu = `https://reddit.com/r/indonesia/hot/.json?limit=100`
+    const got = require("got");
+    let data = await got(hu).then(res => JSON.parse(res.body));
+    let r = Math.floor(Math.random() * 99);
+    const color = message.guild.me.displayHexColor;
+    var dat = data.data.children[r].data;
+    if (dat.domain === "v.redd.it"){
+      let att = new Discord.MessageAttachment(dat.url, 'reddit.mp4')
+      message.channel.send(`_${dat.title}_`, att)
+    }
+    if (dat.domain !== "v.redd.it"){
+    const att = new Discord.MessageAttachment(dat.url, 'reddit.jpg')
+    message.channel.send(`_${dat.title}_`, att);}
+    if (dat.is_gallery === true){
+      message.channel.send('Coba lagi! ||(bukan error, tpi sy tidak bisa menampilkan "Reddit Gallery")||')
+    }
+  }
+  if (command === "add"){
+    const ar = message.content.split(' ').slice(1);
+    const name = args.slice(1).join(' ');
+    message.guild.emojis.create(`${args[1]}`, `${args[2]}`)
+     .then(emoji => {
+     console.log(`Created new emoji with name ${emoji.name}!`)
+     message.channel.send(`Created new emoji with name ${emoji.name}!`)});
+    
+  }
+  if (command === "t"){
+    message.channel.send(args[1])
   }
   if (command === "sudo") {
     if (!searchString) return message.channel.send("||ndak tau udah||");
     const member =
       message.mentions.members.first() ||
-      message.guild.members.cache.get(args[0]);
+      bot.users.fetch(args[1]);
     if (!member) return message.reply("Can't find this user");
     message.delete();
     message.channel
@@ -1056,7 +1353,8 @@ if (command === "project"){
         );
         console.log(`Fetched ${webhooks.size} webhooks`);
       })
-      .catch(console.error);
+      .catch(
+        message.channel.send(error));
   }
   if (command === "wdel") {
     message.channel
@@ -1069,33 +1367,56 @@ if (command === "project"){
       })
       .catch(console.error);
   }
+  if (command === "1cak" || command === "onecak"){
+    //const url = `https://onecak.azurewebsites.net/?shuffle=1`
+    const url = `http://api-1cak.herokuapp.com/random`
+    const got = require("got");
+    let data = await got(url).then(res => JSON.parse(res.body));
+    let embed = new MessageEmbed()
+    embed.setTitle(data.title)
+    embed.setImage(data.img)
+    embed.setColor('WHITE')
+    embed.setURL(data.url)
+      if (data.nsfw === true){
+        embed.setDescription('**NSFW**')
+      }
+
+      let atac = new Discord.MessageAttachment(data.img, "onecak.jpg")
+      message.channel.send(atac)
+  }
   if (command === "servers") {
     let p = new MessageEmbed()
       .setColor("GOLD")
-      .setAuthor(`Servers im join`)
-      .setDescription(bot.guilds.cache.map(guild => guild.name).join("*,\n*"))
+      .setAuthor(`Servers im join. Thanks for inviting!`)
+      .setDescription(client.guilds.cache.map(guild => guild.name).join("*,\n*"))
       .setTimestamp()
       .setFooter(`Noob bot`);
     message.channel.send(p).catch(console.error);
   }
   if (command === "wiki") {
     if (!searchString) return message.channel.send("mau cari ap ngab?");
-    let web = `https://id.wikipedia.org/w/api.php?action=query&list=search&srsearch=${searchString}&format=json`;
+    let web = `https://mhankbarbar.herokuapp.com/api/wiki?q=${searchString}`;
     const got = require("got");
     let data = await got(web).then(res => JSON.parse(res.body));
-    let e = new MessageEmbed()
+
+      if (data.status === false){
+      message.channel.send('[\u2757] Yang anda cari tidak bisa saya temukan di wikipedia!')
+    }
+      if (data.status === 200){
+    let w = new MessageEmbed()
       .setAuthor(
         "Wikipedia",
-        "https://upload.wikimedia.org/wikipedia/commons/d/de/Wikipedia_Logo_1.0.png"
+        "https://cdn.discordapp.com/attachments/831770333501325332/884080848159277126/wikipedia_logo_icon_181367.png"
       )
-      .setTitle(data.query.search[0].title)
+      .setTitle(`${searchString}`)
       .setColor("WHITE")
       .setDescription(
-        data.query.search[0].snippet.replace('<span class="searchmatch">', " ")
+      //  data.query.search[0].snippet.replace('<span class="searchmatch">', " ")
+      data.result
       )
-      .setFooter("https://id.wikipedia.org");
-    message.channel.send(e);
-    message.channel.send("biasa gaje");
+      .setFooter("https://wikipedia.org");
+    
+    message.channel.send(w);}
   }
   if (command === "kbbi") {
     if (!searchString) return message.channel.send("mau cari ap ngab?");
@@ -1113,7 +1434,7 @@ if (command === "project"){
   if (command === "test") {
     message.channel.send(
       `${searchString[0]} | ${searchString[1]} | ${
-        searchString[2]
+      searchString[2]
       } | ${searchString}`
     );
     message.channel.send(`${args[0]} | ${args[1]} | ${args[2]} `);
@@ -1155,7 +1476,7 @@ if (command === "project"){
         .setImage(ple.thumb)
         .setColor("BLUE")
         .setFooter(
-          "Beri ulasan ke saya dgn react! | Komiku.id",
+          "| Komiku.id",
           message.author.displayAvatarURL()
         );
       const haha = await message.channel.send(mb);
@@ -1266,7 +1587,7 @@ if (command === "project"){
     message.channel.send(`${searchString}`);
     message.channel.send(`${searchString}`);
     message.channel.send(`${searchString}`);
-    message.channel.send(`Tugas ku sudah selesai, bang <@{owner}> :thumbsup:`);
+    message.channel.send(`Tugas ku sudah selesai, bang <@${owner}> :thumbsup:`);
   } else if (command === "spam100" && message.author.id != owner) {
     message.channel.send("go away brrrrr");
   }
@@ -1328,118 +1649,194 @@ if (command === "project"){
     );
   }
   if (command === "wikihow") {
-    var api = `https://kagchi-api.glitch.me/wikihow`;
-    let response, data;
-    try {
-      response = await axios.get(api);
-      data = response.data;
-    } catch (e) {
-      return message.channel.send(`Error ngab`);
-    }
+    const url = `https://kagchi-api.glitch.me/wikihow`
+    const got = require("got");
+    let data = await got(url).then(res => JSON.parse(res.body));
     var o = new MessageEmbed()
-      .setAuthor(data.title, bot.user.avatarURL())
+      .setAuthor(bot.user.username, bot.user.avatarURL())
+      .setTitle(data.title)
       .setImage(data.url)
       .setDescription(`[**WikiHow Source**](${data.article_url})`)
-      .setFooter("WIKIHOW MENGGAJE", message.author.avatarURL())
+      .setFooter("hmm", message.author.avatarURL())
       .setColor("GREEN");
     message.channel.send(o);
+  }
+  if (command === "invite") {
+    message.channel.send(`https://discord.com/oauth2/authorize?client_id=727354971707932702&permissions=8&scope=bot \n\nthx <3 <@${message.author.id}>`)
+  }
+  if (command === "afk"){
+    const db = require("quick.db")
+    try {
+      let reason = searchString;
+      if (reason.toLowerCase().includes(`discord.gg`)) {
+        return message.reply(`You can\'t have links in your reason`)
+      }
+      let afkcheck = db.fetch(`afk_${message.guild.id}_${message.author.id}`);
+      if (!searchString) {
+        reason = "AFK";
+      }
+      if (afkcheck == null) {
+        await db.set(`afk_${message.guild.id}_${message.author.id}`, {
+          tag: message.author.username,
+          reason: reason
+        })
+        message.channel.send(`I have set your AFK with reason: **${reason}**`)
+        await message.react('👍');
+      } else {
+        return;
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
   //------------ M U S I C . C O M M A N D S -----------------//
   if (command === "help") {
     const helpembed = new MessageEmbed()
       .setColor("BLUE")
-      .setAuthor(bot.user.username, message.author.displayAvatarURL())
-      .setTitle("Command List").setDescription(`
- **Maintenance <:ndaktau:831494322901352498>**
- \`h.wasted\` \`h.ytc\` \`h.waifu\`
- \`h.fact\`
+      .setAuthor("Botdumbess", 'https://cdn.discordapp.com/avatars/727354971707932702/059bfc408f82dece8c540347bd17fa92.webp?size=1024')
+      .setTitle("Command List")
+      .setDescription(`
+_**==> New Command**_
+ \`h.ig\` \`h.ytdl\` \`h.ytmp3\` 
+ \`(command ini mempunyai limit!)\`
 
-_**>> New Commands**_
- \`h.userinfo\` \`h.respect\` \`h.echo\`
- \`h.anime\` \`h.search\` \`h.ss\`
- \`h.smug\` \`h.reddit\` \`h.sudo\`
+**images**
+ \`h.search\` \`h.ss\` \`h.reddit\`
+ \`h.images\` \`h.avatar\` \`h.wikihow\`
 
 **ndak tau**
- \`h.ask\` \`h.spam\` \`h.images\`
- \`h.ping\` \`h.avatar\` \`h.morse\`
+ \`h.ask\` \`h.ping\` \`h.morse\`
  \`h.say\` \`h.wink\` \`h.adzan\` 
- \`h.choose\` \`h.wangy\` \`h.wikihow\`
+ \`h.choose\` \`h.wangy\` \`h.sudo\`
+ \`h.anime\` \`h.userinfo\` \`h.respect\`
+ \`h.echo\`
 
-**Music**
+**Music (No Longer Maintained)**
  \`h.play\` \`h.search\` \`h.skip\`
  \`h.stop\` \`h.pause\` \`h.resume\`
  \`h.nowplaying\` \`h.queue\` \`h.volume\`
  \`h.lyrics\`
+
+\`sbnrny msh bnyk, mls nulis. coba2 aj, atau tanya.
+~parris\`
  `);
     if (message.author.id === owner) {
       helpembed.addField(
-        `<a:790481697145225237:812973632799244318> only for ma honey <a:790481697145225237:812973632799244318>`,
+        `only for pares <a:watdadog:877318619556630578>`,
         `\`h.webh\`  \`h.wdel\``
       );
     }
-    helpembed.setThumbnail(bot.user.displayAvatarURL());
+    helpembed.setThumbnail('https://cdn.discordapp.com/avatars/727354971707932702/059bfc408f82dece8c540347bd17fa92.webp?size=1024');
     helpembed.setFooter("bot paris", message.author.avatarURL);
     message.channel.send(helpembed).catch(console.error);
   }
   if (command === "ytmp3") {
     if (!searchString)
       return message.channel.send(
-        "Masukkan link youtube. Link harus berformat `https://youtu.be/`"
+        "Masukkan link youtube.`"
       );
-    if (searchString === "https://youtube.com/")
-      return "Link harus berformat `https://youtu.be`.\nContoh : `https://youtu.be/dQw4w9WgXcQ`";
     const got = require("got");
-    const url = `https://hadi-api.herokuapp.com/api/ytaudio?url=${searchString}`;
+    const url = `https://api.lolhuman.xyz/api/ytaudio?apikey=5119194f07cdf52d5c57d3d0&url=${searchString}`;
     let dat = await got(url).then(res => JSON.parse(res.body));
     try {
+      let ytm = message.channel
       let att = new MessageEmbed()
         .setTitle(dat.result.title)
-        .setURL(`${dat.result.download_audio}`)
+        .setThumbnail(`${dat.result.thumbnail}`)
+        .setURL(`${dat.result.link.link}`)
         .setDescription(
-          `[**Tekan untuk mendownload!**](${dat.result.download_audio})\n\n------------------------------------\n${dat.result.desc}`
+          `File akan segera dikirim....\n\n------------------------------------\nSize : ${dat.result.link.size} \n **_kalo lagu ny belum terkirim, lu bisa [Klik ini!](${dat.result.link.link})_**`
         )
         .setFooter(
-          `tutorial? \`h.ytmp3 tutor\``,
+          `pembajakan but, no one care `,
           `https://cdn.discordapp.com/emojis/830015051833278505.png?v=1`
         )
         .setColor("#2F3136");
-      let button = new butt.MessageButton()
-        .setStyle("url") //default: blurple
-        .setLabel("Download Link") //default: NO_LABEL_PROVIDED
-        .setURL(`${dat.result.download_audio}`)
-        .setID(); //note: if you use the style "url" you must provide url using .setURL('https://example.com')
-      //disables the button | default: false
-      message.channel.send(att, button);
+      message.channel.send(att)
+      ttc = new Discord.MessageAttachment(dat.result.link.link, `${dat.result.title}.mp3`);
+      message.channel.send(ttc)
     } catch (e) {
-      return message.channel.send(`Error ngab`);
+      return message.channel.send(`Server error!`);
     }
+  }
+  if (command === "google"|| command === "gugel"){
+    if (!searchString)
+      return message.channel.send(
+        "mau cari afh? <:hmm:959422267236945970> ||jangan sring dipake, ad limitny perhari||"
+      );
+    const got = require("got");
+    const url = `https://api.lolhuman.xyz/api/gsearch?apikey=3f342f50d0fb2f0cbfdc7848&query=${searchString}`;
+    let data = await got(url).then(res => JSON.parse(res.body));
+
+    let p = new MessageEmbed()
+      .setAuthor('Google Search', 'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png')
+    .setTitle(`${searchString}`)
+    .setDescription(`**[${data.result[0].title}](${data.result[0].link})**\n\`${data.result[0].link}\`\n${data.result[0].desc}\n\n**[${data.result[1].title}](${data.result[1].link})**\n\`${data.result[1].link}\`\n${data.result[1].desc}\n\n**[${data.result[2].title}](${data.result[2].link})**\n\`${data.result[2].link}\`\n${data.result[2].desc}\n\n**[${data.result[3].title}](${data.result[3].link})**\n\`${data.result[3].link}\`\n${data.result[3].desc}\n\n**[${data.result[3].title}](${data.result[4].link})**\n\`${data.result[4].link}\`\n${data.result[4].desc}`)
+  .setColor('#36393F')
+    message.channel.send(p)
+  }
+  
+  if (command === "wutmanga" || command === "whatmanga"){
+    
   }
   if (command === "ytdl") {
     if (!searchString)
       return message.channel.send(
-        "Masukkan link youtube. Link harus berformat `https://youtu.be/`"
+        "Masukkan link youtube."
       );
-    if (searchString === "https://youtube.com/")
-      return "Link harus berformat `https://youtu.be`.\nContoh : `https://youtu.be/dQw4w9WgXcQ`";
     const got = require("got");
-    const url = `https://hadi-api.herokuapp.com/api/ytvideo?url=${searchString}`;
+    const url = `https://api.lolhuman.xyz/api/ytreels?apikey=3f342f50d0fb2f0cbfdc7848&url=${searchString}`;
     let dat = await got(url).then(res => JSON.parse(res.body));
+    message.channel.send("loading... if stuck, error.")
     try {
-      let att = new MessageEmbed()
+      let att = await new MessageEmbed()
         .setTitle(dat.result.title)
-        .setURL(`${dat.result.download_video}`)
+        .setThumbnail(`${dat.result.thumbnail}`)
+        .setURL(`${dat.result.link}`)
         .setDescription(
-          `[**Tekan untuk mendownload!**](${dat.result.download_video})\n\n------------------------------------\n\n[**DOWNLOAD LINK**](${dat.result.download_video}) `
+          `File akan segera dikirim....\n\n------------------------------------\n**_kalo video ny belum terkirim, kamu bisa [Klik ini!](${dat.result.link})_**`
         )
         .setFooter(
-          "Tutorial? `h.ytdl tutor`",
+          `pembajakan but, no one care `,
           `https://cdn.discordapp.com/emojis/830015051833278505.png?v=1`
         )
         .setColor("#2F3136");
       message.channel.send(att);
+
+      ttd = new Discord.MessageAttachment(dat.result.link, `${dat.result.title}.mp4`)
+      message.channel.send(ttd)
+        if (ttd.size > '8388608'){
+          message.channel.send(`${dat.result.link}`)
+        }
     } catch (e) {
-      return message.channel.send(`Error ngab`);
+      return message.channel.send(`Error! \n \`\`\`bash\n${e}\n\`\`\``);
     }
+  }
+  if (command === "tt") {
+    if (!searchString)
+      return message.channel.send(
+        "Masukkan link Tiktok!"
+      );
+    const got = require("got");
+    const url = `https://api.lolhuman.xyz/api/tiktokwm?apikey=3f342f50d0fb2f0cbfdc7848&url=${searchString}`;
+    let dat = await got(url).then(res => JSON.parse(res.body));
+    message.channel.send("loading... if this stuck, ok error.")
+    try {
+      ttd = new Discord.MessageAttachment(dat.result.link, `${dat.result.title}.mp4`)
+      message.channel.send(ttd)
+      console.log(dat)
+    } catch (e) {
+      return message.channel.send(`Error! \n \`\`\`bash\n${e}\n\`\`\``);
+    
+    }
+  }
+  
+  if (command === "ip"){
+    if (!searchString) return message.channel.send('masukkan ip\ngtw ip? yaudah')
+    const got = require("got");
+    const url = `http://ip-api.com/json/${searchString}?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query`;
+    let dat = await got(url).then(res => JSON.parse(res.body));
+    message.channel.send(`\`\`\`json\nSearch Result for ${dat.query}\n------------------\nCountry    : ${dat.country} (${dat.countryCode})\nRegion   : ${dat.regionName} (${dat.region})\nCity : ${dat.city}\nLatitude : ${dat.lat}\nLongitude : ${dat.lon}\nTimezone : ${dat.timezone}\nISP : ${dat.isp}\nOrganization : ${dat.org}\nAS : ${dat.as}\n------------------\n\`\`\``)
   }
   if (message.content === "iam") {
     message.channel.send("<@470195472158425110>");
@@ -1465,7 +1862,50 @@ _**>> New Commands**_
     message.channel.send(
       `Kalo g muncul, mungkin lirikny lbih dri 2000kata.\nCoba ketik \`h.lyricst [Lagu]\`. Mungkin bisa.`
     );
+  };
+ if (command === "google"|| command === "gug"){}
+
+  if (command === "r" || command === "recent"){
+    if (message.guild.id === 875388139148017715) return message.channel.send('khusus server gamew')
+    const got = require("got");
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=Faris0520&api_key=632b8cddfcbbb1e846cd1bbb8b88c01c&format=json`;
+    let dat = await got(url).then(res => JSON.parse(res.body));
+    let data = dat.recenttracks;
+    
+    if (searchString === "embed"){
+    let embed = new MessageEmbed()
+    .setAuthor("farrs", bot.user.avatarURL)
+    .setTitle("Recent Tracks")
+    .setDescription(`**1. [${data.track[0].name} - ${data.track[0].artist['#text']}](${data.track[0].url})**\n  ${data.track[0].album['#text']}\n**2. [${data.track[1].name} - ${data.track[1].artist['#text']}](${data.track[1].url})**\n  ${data.track[1].album['#text']}\n**3. [${data.track[2].name} - ${data.track[2].artist['#text']}](${data.track[2].url})**\n  ${data.track[2].album['#text']}\n**4. [${data.track[3].name} - ${data.track[3].artist['#text']}](${data.track[3].url})**\n  ${data.track[3].album['#text']}\n**5. [${data.track[4].name} - ${data.track[4].artist['#text']}](${data.track[4].url})**\n  ${data.track[4].album['#text']}\n`)
+    .setThumbnail(`${data.track[0].image[3]['#text']}`)
+    .setColor("GREEN")
+    .setFooter("afa iyh bnh")
+    message.channel.send(embed)} else  message.channel.send(`_**Recent Tracks**_\n**1. ${data.track[0].name} - ${data.track[0].artist['#text']}**\n  ${data.track[0].album['#text']}\n**2. ${data.track[1].name} - ${data.track[1].artist['#text']}**\n  ${data.track[1].album['#text']}\n**3. ${data.track[2].name} - ${data.track[2].artist['#text']}**\n  ${data.track[2].album['#text']}\n**4. ${data.track[3].name} - ${data.track[3].artist['#text']}**\n  ${data.track[3].album['#text']}\n**5. ${data.track[4].name} - ${data.track[4].artist['#text']}**\n  ${data.track[4].album['#text']}`)
+    
   }
+  if (command === "fb"){
+
+    if (!searchString) return message.channel.send('masukan link fb (Video Only!)')
+    const got = require("got");
+    const url = `https://api.lolhuman.xyz/api/facebook?apikey=3f342f50d0fb2f0cbfdc7848&url=${searchString}`;
+    let dat = await got(url).then(res => JSON.parse(res.body));
+  
+    ttd = new Discord.MessageAttachment(dat.result, `facebook-botdumbes.mp4`)
+      message.channel.send(ttd)
+    console.log(dat.result)
+  }
+  if (command === "epbi"){
+    const { facebook } = require('./fb.js')
+      if (!searchString) return message.channel.send(`uhm.. url nya mana?\n\ncontoh:\nh.fb https://www.facebook.com/alanwalkermusic/videos/277641643524720`)
+  if (!searchString.match(/https:\/\/.*(facebook.com|fb.watch)/gi)) return message.channel.send(`url salah`)
+  facebook(searchString).then(async res => {
+    let fb = JSON.stringify(res)
+    let json = JSON.parse(fb)
+    // m.reply(require('util').format(json))
+    if (!json.status) return json;
+    message.channel.send(`${json.data[0].url}`)
+  })}
+
   if (command === "play" || command === "p") {
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel)
@@ -1771,7 +2211,7 @@ _**>> New Commands**_
       .setDescription(number[index].join("\n"))
       .setFooter(
         `• Now Playing: ${serverQueue.songs[0].title} | Page ${index + 1} of ${
-          number.length
+        number.length
         }`
       );
     const m = await message.channel.send(embedQueue);
@@ -1848,7 +2288,7 @@ _**>> New Commands**_
           color: "GREEN",
           description: `🔁  **|**  Loop is **\`${
             serverQueue.loop === true ? "enabled" : "disabled"
-          }\`**`
+            }\`**`
         }
       });
     }
@@ -1947,7 +2387,7 @@ function play(guild, song) {
   });
 }
 
-bot.login(process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
 
 process.on("unhandledRejection", (reason, promise) => {
   try {
@@ -1971,7 +2411,7 @@ bot.user.setActivity("bit.ly/faris0520w", {
   type: "LISTENING",
   url: "https://bit.ly/faris0520w"
 }); */
-client.once("ready", async () => {
+/*client.once("ready", async () => {
   const data = {
     name: "echo",
     description: "Replies with your input!",
@@ -1996,14 +2436,15 @@ client.once("ready", async () => {
     .get("695851369277685760")
     .commands.create(dat);
   console.log(commamnd);
-});
+});*/
 
-bot.on("messageDelete", message => {
+client.on("messageDelete", message => {
   console.log(`${message.id} was deleted!`);
   // Partial messages do not contain any content so skip them
   if (!message.partial) {
-    console.log(`It had content: "${message.content}"`);
-    let log = bot.channels.cache.get("840513794119434271");
+    if (!message.content) return;
+    console.log(`It had content: "${message.content}" || from ${message.author.username}`);
+    let log = client.channels.cache.get("840513794119434271");
     let d = new MessageEmbed()
       .setColor("RED")
       .setAuthor(
@@ -2020,89 +2461,90 @@ bot.on("messageDelete", message => {
       .setFooter(`si ${message.author.username} ngapus pesan`)
       .setTimestamp();
     log.send(d);
-     if (message.guild.id === "619425471733432320"){
-    let logp = bot.channels.cache.get("732052682638098503");
-    let pd = new MessageEmbed()
-      .setColor("RED")
-      .setAuthor(
-        "- Deleted Messages -",
-        message.author.displayAvatarURL({ format: "png" })
-      )
-      .addFields(
-        /*{ name: "test", value: `${message.content.image}` },*/
-        { name: "From", value: `<@${message.author.id}>` },
-        { name: "Channel", value: `<#${message.channel.id}>` },
-        { name: "Content", value: message.content }
-      )
-      .setFooter(`si ${message.author.username} ngapus pesan`)
-      .setTimestamp();
-    logp.send(pd);}
+    if (message.guild.id === "619425471733432320") {
+      let logp = client.channels.cache.get("732052682638098503");
+      let pd = new MessageEmbed()
+        .setColor("RED")
+        .setAuthor(
+          "- Deleted Messages -",
+          message.author.displayAvatarURL({ format: "png" })
+        )
+        .addFields(
+          /*{ name: "test", value: `${message.content.image}` },*/
+          { name: "From", value: `<@${message.author.id}>` },
+          { name: "Channel", value: `<#${message.channel.id}>` },
+          { name: "Content", value: message.content }
+        )
+        .setFooter(`si ${message.author.username} ngapus pesan`)
+        .setTimestamp();
+      logp.send(pd);
+    }
+
+    if (message.guild.id === "875388139148017715") {
+      let logl = client.channels.cache.get("877382895239589909");
+      let pd = new MessageEmbed()
+        .setColor("RED")
+        .setAuthor(
+          "- Deleted Messages -",
+          message.author.displayAvatarURL({ format: "png" })
+        )
+        .addFields(
+          /*{ name: "test", value: `${message.content.image}` },*/
+          { name: "From", value: `<@${message.author.id}>` },
+          { name: "Channel", value: `<#${message.channel.id}>` },
+          { name: "Content", value: message.content }
+        )
+        .setFooter(`si ${message.author.username} ngapus pesan`)
+        .setTimestamp();
+      logl.send(pd);
+    }
+    return;
   }
 });
 
-bot.on('ready', () => {
-    bot.api.applications(bot.user.id).guilds('747323550150426695').commands.post({
-        data: {
-            name: "embed",
-            description: "embed testing"
-    }} )
-  ;
+client.on("messageUpdate", async (message, newEditedMessage) => {
+  if (message.content === newEditedMessage.content) {
+    return;
+  }
+  if (message.author.bot === true){
+    return;
+  }
 
+  let logEditedMessageEmbed = new Discord.MessageEmbed()
+    .setAuthor(message.author.tag, message.author.avatarURL())
+    .setDescription("Message edited")
+    .addField("Before", message.content, true)
+    .addField("After", newEditedMessage.content, true)
+    .addField("Channel", `<#${message.channel.id}>`)
+    .setFooter(`si ${message.author.username} ngedit!`)
+    .setTimestamp()
+    .setColor('GREEN')
 
-    bot.ws.on('INTERACTION_CREATE', async interaction => {
-        const command = interaction.data.name.toLowerCase();
-        const args = interaction.data.options;
+  let loggingChannel = client.channels.cache.get('885042371924992000')
+  if (!loggingChannel) return (message.channel.send("Not Found"));
 
-        if (command === "ping"){
-          let repl = [
-            "Pong!",
-            "Pang.",
-            "What are you doing?",
-            "Peng",
-            "U-Uh... h-hi",
-            "W-Was I fast enough?"
-          ];
-          let result = Math.floor(Math.random() * repl.length);
-          var ping = Date.now() - message.createdTimestamp;
-          if (ping > 500) p = "MF >:";
-          if (ping < 500) p = "Nice! <:ndaktau:831494322901352498>";
-           let fin = `:mega: *${repl[result]}* - My ping: **${ping}** ms (${p})`;
-          bot.api.interactions(interaction.id, interaction.token).callback.post({
-          data: {
-            type: 4,
-            data: {
-              content: fin
-            }
-          }
-        })}
-        if (command === 'hello'){ 
-            // here you could do anything. in this sample
-            // i reply with an api interaction
-            bot.api.interactions(interaction.id, interaction.token).callback.post({
-                data: {
-                    type: 4,
-                    data: { 
-                        content: "hello"
-                        }
-                    }
-                
-            })
-        }
-        else if (command === "embed"){
-          bot.api.interactions(interaction.id, interaction.token).callback.post({
-          data: {
-            type: 4,
-            data: {
-              embeds: [
-                {
-
-                  title: 'Some title',
-                  description: 'some description'
-                }
-              ]
-            }
-          }
-        })}
-         
-    });
+  loggingChannel.send(logEditedMessageEmbed)
 });
+client.on("messageUpdate", async (message, newEditedMessage) => {
+  if (message.content === newEditedMessage.content) {
+    return;
+  }
+  if (message.author.bot === true){
+    return;
+  }
+
+  let embed = new Discord.MessageEmbed()
+    .setAuthor(message.author.tag, message.author.avatarURL())
+    .setDescription("Message edited")
+    .addField("Before", message.content, true)
+    .addField("After", newEditedMessage.content, false)
+    .addField("Channel", `<#${message.channel.id}>`)
+    .setFooter(`si ${message.author.username} ngedit!`)
+    .setTimestamp()
+    .setColor('GREEN');
+
+  let loggingChannel = client.channels.cache.get('941939319814377543')
+  if (!loggingChannel) return (message.channel.send("Not Found"));
+
+  let pesan = `${message.author.username} ngedit pesan! \nBefore :\n${message.content}\nAfter:\n${newEditedMessage.content}`
+  loggingChannel.send(embed)})
