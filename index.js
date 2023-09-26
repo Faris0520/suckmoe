@@ -222,8 +222,22 @@ message.channel.send("https://cdn.discordapp.com/attachments/967061747011846244/
   let command = message.content.toLowerCase().split(" ")[0];
   command = command.slice(PREFIX.length);
 
-  // Chatbot desu
-  if (
+  let jawa = [
+    "hae all, sorry bgt tp izin out ya, karena kayak aku di dc ini jg ga ngapa ngapain kayak aku malu gt mo join2 voice, jadi dripada menuhin aku mau out aja, btw thanks all, klo masi mo main ayo ayo aja kok, but w pamit ya. BYE!!",
+    "Bro jujur gue insecure join sirkel kalian, kalian semua pemes sosmed gue cuma apasih, nanya nimbrung digrup aja dikacangin padahal gua pengen ikut berbaur sama obrolan kalian, kalo gue dikacangin gini gimana bisa deket sama kalian, kalian seru sendiri gue cuma nyimak takut ikut malah dikacangin.plis bro gue harap jangan begitu rangkul semua",
+    "Izin berkeluh kesah, Mau ngeluarin unek unek aja.Gini amat ya le masih muda tapi dah jadi tulang punggung, baru juga lulusan kemarenn. Bapak dah gabisa kerja, Ibu yang mau kerja tapi ga di bolehin bapak. Kakak dipondok, Adek masih kls 1 sd. Dan menyambut ramadhan dengan pusing. Bensin abis, kuota abis, beras menipis, mikir besok lauknya gimana, karna udh gapunya uang. Listrinya gimana, Hadeuhhh.. dipikir pikir cuapek banget dan iri banget ama anak seumuran yang bisa nabung dan kebeli apapun yang dia mau.. Bukan ga bersyukur ya le, Mau keluh kesah aja. Aku capek le, dan hidup gua kok gini amattt gitu. Udahh le gausah di komen kalau gasuka, kalau mau ngasih motivasi silahkan dah, barangkali ada yang senasib.. gua bersyukur aja, tapi kadang kurang bersyukur. Sekian terima Gaji 🙏",
+    "sosoan mau jadi pacar aku , aku ga suka vidcall/call , kalaupun mau ya aku angkat. aku paling benci disuruh pap aku lebih milih putus daripada papaku ga bisa keluar buat main , aku ga bebas , aku ovt parah , aku trust issue , aku rumit , aku jengkelin bin nyusahin , aku masih childish , aku cemburuan , aku mau jadi satu satunya , aku egois , dan mungkin sering juga bakalan bikin kamu marah , aku banyak nanya kalau aku pengen tauu banget. intinya aku ovt parah kalau aku ovt aku maunya dijelasin sampe aku paham , dan aku ga suka dibentak apalagi dikasarin , masih mau sama akuuuu?? si manusia aneh dan rumit ini???",
+    "nah ini mindset orang indonesia ya begini ini, sebenernya bukan masalah 'cuma game doang keluar duit', ini masalah respect sama yang udah buat, apalagi kalo gamenya ini dibuild pake engine baru, itu butuh pengenalan agak lama pastinya bagi si developernya, coba bayangin udah kerja lama lama tapi gak dibayar, begitulah ibaratnya kalo kita ngecrack game, apalagi game game yang dibuat sama developer indie(developer kecil/startup)",
+    "Udh gede kan bang? Kalau ga tau apa2 gausah bawa personal ya, Kalau ga suka tinggal skip, Atau block dah, yg lain nganggep jokes lah situ nanggepnya serius",
+    "ibarat kata\npulau lain di bangun \nyang salah tetep jawa\njawa korupsi salah\npulai lain korupsi gaskenn\nlu punya apbd lu punya kuasa tapi bagi gubenur engga men kita makan itu apbd\nsemua masalah di indonesia ini disebabkan oleh jawa\njawa musnah=indonesia makmur\njawa tanpa pulau lain bisa apa coy\nyang dikeruk sumatera,kalimantan,sulawesi,papua yang maju jawa coy",
+    "gwe juga bingung bang kek apa sih caranya biar di hargain sama kalian,padahal jujurly gweh tu pengen banget gitu main bareng kalian,supaya gweh tu bisa dekat sama kalian trus jadi besti gitu loh,gweh juga kadang suka sakit hatih gitu loh sama orang orang yg di tag kek seleb,coba ajah kalian rasain di posisi gweh kek apa rasanya kalo di gituin, mungkin followers ku harus 4k+ dulu yah baru kalian mau balas chat gweh, fineeee"
+  ];
+  if (message.content === "jawa"){
+    message.channel.send(`${Math.floor(Math.random() * jawa.length)}`)
+  }
+    if (message.content.startsWith("lic")) {
+      // Chatbot desu
+      /*if (
     message.channel.id === "827581906140528660" ||
     message.channel.id === "830950242030977034" ||
     message.channel.id === "831383137967276084" ||
@@ -237,11 +251,10 @@ message.channel.send("https://cdn.discordapp.com/attachments/967061747011846244/
       .then((response) => response.json())
       .then((data) => data.message);
     message.channel.send(`${pesan}`);
-  }
-  // ------------------- OTHER COMMANDS -----------------------//
-  if (message.content.startsWith("lic")) {
-    message.channel.send(`<a:lic:884363894519394304>${searchString}`);
-  }
+  }*/
+      // ------------------- OTHER COMMANDS -----------------------//
+      message.channel.send(`<a:lic:884363894519394304>${searchString}`);
+    }
   if (!message.content.startsWith(PREFIX)) return;
   if (command === "todo") {
     message.delete();
@@ -1656,6 +1669,7 @@ message.channel.send("https://cdn.discordapp.com/attachments/967061747011846244/
     let Result = Select[Math.floor(Math.random() * Select.length)];
     message.channel.send(Result);
   }
+
   if (command === "wangy") {
     if (!searchString) return message.channel.send("Masukkan nama!");
     let idk = searchString.replace(
