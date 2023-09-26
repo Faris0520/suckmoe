@@ -233,7 +233,16 @@ message.channel.send("https://cdn.discordapp.com/attachments/967061747011846244/
     "gwe juga bingung bang kek apa sih caranya biar di hargain sama kalian,padahal jujurly gweh tu pengen banget gitu main bareng kalian,supaya gweh tu bisa dekat sama kalian trus jadi besti gitu loh,gweh juga kadang suka sakit hatih gitu loh sama orang orang yg di tag kek seleb,coba ajah kalian rasain di posisi gweh kek apa rasanya kalo di gituin, mungkin followers ku harus 4k+ dulu yah baru kalian mau balas chat gweh, fineeee"
   ];
   if (message.content === "jawa"){
-    message.channel.send(`${Math.floor(Math.random() * jawa.length)}`)
+        message.channel
+      .createWebhook(message.author.username, {
+        avatar: message.author.displayAvatarURL({ dynamic: true }),
+      })
+      .then((webhook) => {
+        webhook.send(Math.floor(Math.random() * jawa.length);
+        setTimeout(() => {
+          webhook.delete();
+        }, 60000);
+      });
   }
     if (message.content.startsWith("lic")) {
       // Chatbot desu
