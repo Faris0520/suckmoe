@@ -238,7 +238,7 @@ message.channel.send("https://cdn.discordapp.com/attachments/967061747011846244/
         avatar: message.author.displayAvatarURL({ dynamic: true }),
       })
       .then((webhook) => {
-        webhook.send(Math.floor(Math.random() * jawa.length);
+        webhook.send(Math.floor(Math.random() * jawa.length));
         setTimeout(() => {
           webhook.delete();
         }, 60000);
